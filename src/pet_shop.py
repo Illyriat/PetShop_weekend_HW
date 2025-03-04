@@ -45,7 +45,6 @@ def remove_pet_by_name(pet_shop, remove_by_name):
             pet_shop["pets"].remove(pets)
             break
 
-
 def add_pet_to_stock(pet_shop, new_pet):
     pet_shop["pets"].append(new_pet)
 
@@ -60,3 +59,14 @@ def get_customer_pet_count(customers):
 
 def add_pet_to_customer(customers, add_pet):
     customers["pets"].append(add_pet)
+
+def customer_can_afford_pet(customer, pet):
+    return customer["cash"] >= pet["price"]
+
+def sell_pet_to_customer(pet_shop, pet, customer):
+    if pet is not None and customer_can_afford_pet(customer, pet):
+        remove_pet_by_name(pet_shop, pet["name"])
+        add_pet_to_customer(customer, pet)
+        remove_customer_cash(customer, pet["price"])
+        add_or_remove_cash(pet_shop, pet["price"])
+        increase_pets_sold(pet_shop, 1)
